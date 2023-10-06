@@ -2,7 +2,7 @@ Feature: Home page to Login
 
   Background:
     Given I am at the Homepage
-    And Click the fcking X button
+    And Click the X button
     When I will click the Login page
     Then Should be at Login page and Click the Email section
 

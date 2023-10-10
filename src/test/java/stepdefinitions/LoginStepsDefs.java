@@ -6,6 +6,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,9 +14,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.bibuat.General.PROD_WEBSITE_LINK;
-import static com.bibuat.General.X_PROMPT_BTN;
-import static com.bibuat.LoginElements.*;
+import static com.bibuat.elements.General.*;
+import static com.bibuat.elements.LoginElements.*;
 import static com.bibuat.utility.ThinkingTimeUtil.getElementWithPolling;
 import static com.bibuat.utility.ThinkingTimeUtil.getWebDriverWait;
 
@@ -24,7 +24,6 @@ public class LoginStepsDefs {
 
     private final WebDriver driver;
     private final WebDriverWait wait;
-
     public LoginStepsDefs() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
@@ -32,19 +31,23 @@ public class LoginStepsDefs {
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
         wait = getWebDriverWait(driver);
-
     }
 
-    //Homepage Navigation
+//    Homepage Navigation
     @Given("I am at the Homepage")
     public void iAmAtTheHomepage() throws InterruptedException {
         driver.get(PROD_WEBSITE_LINK);
+        String actualTitle = "Buy/Sell Bitcoin, Ethereum and Altcoin | Spot / Perpetual Trading | BIB Cryptocurrency Exchange";
+        String getTitle = driver.getTitle();
+        Assert.assertEquals(getTitle, actualTitle);
         Thread.sleep(3000);
     }
 
     @And("Click the X button")
     public void clickTheXButton() throws InterruptedException {
-        driver.findElement(By.xpath(X_PROMPT_BTN)).click();
+
+        WebElement x = getElementWithPolling(wait,By.xpath(X_PROMPT_BTN));
+        x.click();
         Thread.sleep(3000);
     }
 
@@ -56,21 +59,24 @@ public class LoginStepsDefs {
 
     @Then("Should be at Login page and Click the Email section")
     public void shouldBeAtLoginPageAndClickTheEmailSection(){
-        WebElement emailSection = getElementWithPolling(wait, By.xpath(EMAIL_SECTION));
+        WebElement emailSection = getElementWithPolling(wait, By.xpath(EMAIL_SECTION_LOGIN));
         emailSection.click();
     }
 
     @Given("I enter a valid {string} address and a valid {string}")
     public void iEnterAValidAddressAndAValid(String email, String password) throws InterruptedException {
-        driver.findElement(By.name(EMAIL_TEXT_BOX)).sendKeys(email);
+        WebElement emailTextBox = getElementWithPolling(wait,By.name(EMAIL_TEXT_BOX));
+        emailTextBox.sendKeys(email);
         Thread.sleep(2000L);
-        driver.findElement(By.xpath(EMAIL_PASSWORD)).sendKeys(password);
+        WebElement passwordTextBox = getElementWithPolling(wait,By.xpath(EMAIL_PASSWORD));
+        passwordTextBox.sendKeys(password);
         Thread.sleep(2000L);
     }
 
     @And("Click the hidden eye button")
     public void clickTheHiddenEyeButton() {
-        driver.findElement(By.cssSelector(EYE_BTN)).click();
+        WebElement eyeBTN = getElementWithPolling(wait,By.cssSelector(EYE_BTN));
+        eyeBTN.click();
     }
 
     @When("I will click the Login button")
@@ -82,15 +88,18 @@ public class LoginStepsDefs {
 
     @Then("Gee-test will prompt")
     public void geeTestWillPrompt() throws InterruptedException {
-        driver.findElement(By.xpath(GEE_TEST)).isDisplayed();
+        WebElement geetest = getElementWithPolling(wait, By.xpath(GEE_TEST));
+        geetest.isDisplayed();
         Thread.sleep(3000);
     }
 
     @Given("I enter a valid {string} address and a invalid {string}")
     public void iEnterAValidAddressAndAInvalid(String email, String password) throws InterruptedException {
-        driver.findElement(By.name(EMAIL_TEXT_BOX)).sendKeys(email);
+        WebElement emailTextBox = getElementWithPolling(wait,By.name(EMAIL_TEXT_BOX));
+        emailTextBox.sendKeys(email);
         Thread.sleep(2000L);
-        driver.findElement(By.xpath(EMAIL_PASSWORD)).sendKeys(password);
+        WebElement passwordTextBox = getElementWithPolling(wait,By.xpath(EMAIL_PASSWORD));
+        passwordTextBox.sendKeys(password);
         Thread.sleep(2000L);
     }
 
@@ -101,9 +110,11 @@ public class LoginStepsDefs {
     }
     @Given("I enter a Invalid {string} address and a invalid {string}")
     public void iEnterAInvalidAddressAndAInvalid(String email, String password) throws InterruptedException {
-        driver.findElement(By.name(EMAIL_TEXT_BOX)).sendKeys(email);
+        WebElement emailTextBox = getElementWithPolling(wait,By.name(EMAIL_TEXT_BOX));
+        emailTextBox.sendKeys(email);
         Thread.sleep(2000L);
-        driver.findElement(By.xpath(EMAIL_PASSWORD)).sendKeys(password);
+        WebElement passwordTextBox = getElementWithPolling(wait,By.xpath(EMAIL_PASSWORD));
+        passwordTextBox.sendKeys(password);
         Thread.sleep(2000L);
     }
 
@@ -117,6 +128,7 @@ public class LoginStepsDefs {
     @And("I quit the Driver")
     public void iQuitTheDriver() throws InterruptedException {
         // Quit the driver
+
         driver.manage().deleteAllCookies(); // Deletes all the cookies
         driver.quit();
         Thread.sleep(3000L);

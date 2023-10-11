@@ -128,7 +128,6 @@ public class LoginStepsDefs {
     @And("I quit the Driver")
     public void iQuitTheDriver() throws InterruptedException {
         // Quit the driver
-
         driver.manage().deleteAllCookies(); // Deletes all the cookies
         driver.quit();
         Thread.sleep(3000L);

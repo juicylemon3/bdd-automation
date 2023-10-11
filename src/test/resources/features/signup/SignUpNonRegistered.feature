@@ -17,6 +17,7 @@ Feature: Homepage to Sign-Up
     And The Security Verification prompt will show
     Then The Confirm Button will click after entering the code
     And The Send Notification prompt will displayed
+    And Will exit the webdriver
 
     Examples:
       | email                     | password     |

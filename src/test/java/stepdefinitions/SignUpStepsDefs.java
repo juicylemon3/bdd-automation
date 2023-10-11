@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -87,7 +88,7 @@ public class SignUpStepsDefs {
 
     @And("Enter optionally a Invitation Code")
     public void enterOptionallyAInvitationCode() {
-        WebElement invitationCode = getElementWithPolling(wait, By.cssSelector(INVITATION_CODE_OPTIONAL));
+        WebElement invitationCode = getElementWithPolling(wait, By.xpath(INVITATION_CODE_OPTIONAL));
         invitationCode.isDisplayed();
     }
 
@@ -116,17 +117,17 @@ public class SignUpStepsDefs {
 
     @And("The Security Verification prompt will show")
     public void theSecurityVerificationPromptWillShow() throws InterruptedException {
-        WebElement security = getElementWithPolling(wait, By.cssSelector(SECURITY_VERIFICATION));
+        WebElement security = getElementWithPolling(wait, By.xpath(SECURITY_VERIFICATION));
         security.isDisplayed();
         Thread.sleep(2000L);
     }
 
-    @Test
+
     //    You can decide to create and get the code to your email provided or just check it the element is existing.
 //    If you decide to create, change the isDisplayed to click
     @Then("The Confirm Button will click after entering the code")
     public void theConfirmButtonWillClickAfterEnteringTheCode() throws InterruptedException {
-        WebElement securityTxtBox = getElementWithPolling(wait, By.cssSelector(SECURITY_VERIFICATION_TXTBOX));
+        WebElement securityTxtBox = getElementWithPolling(wait, By.xpath(SECURITY_VERIFICATION_TXTBOX));
         securityTxtBox.isDisplayed();
         Thread.sleep(2000L);
     }
@@ -137,4 +138,12 @@ public class SignUpStepsDefs {
         sendNotification.isDisplayed();
     }
 
+    @After
+    @And("Will exit the webdriver")
+    public void willExitTheWebdriver() throws InterruptedException {
+        // Quit the driver
+        driver.manage().deleteAllCookies(); // Deletes all the cookies
+        driver.quit();
+        Thread.sleep(3000L);
+    }
 }

@@ -1,12 +1,13 @@
 package stepdefinitions;
 
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +19,7 @@ import static com.bibuat.elements.General.*;
 import static com.bibuat.elements.LoginElements.*;
 import static com.bibuat.utility.ThinkingTimeUtil.getElementWithPolling;
 import static com.bibuat.utility.ThinkingTimeUtil.getWebDriverWait;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class LoginStepsDefs {
@@ -34,15 +36,19 @@ public class LoginStepsDefs {
     }
 
 //    Homepage Navigation
+
     @Given("I am at the Homepage")
     public void iAmAtTheHomepage() throws InterruptedException {
         driver.get(PROD_WEBSITE_LINK);
         String actualTitle = "Buy/Sell Bitcoin, Ethereum and Altcoin | Spot / Perpetual Trading | BIB Cryptocurrency Exchange";
         String getTitle = driver.getTitle();
-        Assert.assertEquals(getTitle, actualTitle);
+        assertThat(getTitle)
+                .isEqualTo(actualTitle)
+                .isNotNull();
         Thread.sleep(3000);
     }
 
+    @Test
     @And("Click the X button")
     public void clickTheXButton() throws InterruptedException {
 
@@ -89,7 +95,8 @@ public class LoginStepsDefs {
     @Then("Gee-test will prompt")
     public void geeTestWillPrompt() throws InterruptedException {
         WebElement geetest = getElementWithPolling(wait, By.xpath(GEE_TEST));
-        geetest.isDisplayed();
+        boolean displayed = geetest.isDisplayed();
+        assertThat(displayed).isEqualTo(true);
         Thread.sleep(3000);
     }
 
@@ -106,7 +113,9 @@ public class LoginStepsDefs {
     @Then("The prompt of wrong password will show")
     public void thePromptOfWrongPasswordWillShow() {
         WebElement prompt = getElementWithPolling(wait, By.xpath(WRONG_PASSWORD_PROMPT));
+
         prompt.click();
+        assertThat(prompt).isEqualTo(true);
     }
     @Given("I enter a Invalid {string} address and a invalid {string}")
     public void iEnterAInvalidAddressAndAInvalid(String email, String password) throws InterruptedException {
@@ -124,7 +133,6 @@ public class LoginStepsDefs {
         prompt.click();
     }
 
-    @After
     @And("I quit the Driver")
     public void iQuitTheDriver() throws InterruptedException {
         // Quit the driver

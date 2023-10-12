@@ -7,7 +7,7 @@ Feature: Homepage to Sign-Up
     When I will click the Sign-Up page
     Then Should be at Sign-Up page and Click the Email section
 
-  Scenario Outline:
+  Scenario Outline: Signup page
     Given I enter "<email>" a non-registered email account and enter a "<password>" password
     And Click the hidden eye button in signup
     And Enter optionally a Invitation Code

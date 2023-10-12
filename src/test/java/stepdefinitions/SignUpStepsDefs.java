@@ -17,7 +17,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.bibuat.elements.General.*;
 import static com.bibuat.elements.SignUpElements.*;
-import static com.bibuat.elements.SignUpElements.PASSWORD_TXT_BOX;
 import static com.bibuat.utility.ThinkingTimeUtil.getElementWithPolling;
 import static com.bibuat.utility.ThinkingTimeUtil.getWebDriverWait;
 
@@ -33,10 +32,9 @@ public class SignUpStepsDefs {
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
         wait = getWebDriverWait(driver);
-
     }
 
-    @Test
+
     @Given("I am at the Homepage to click the Signup page")
     public void iAmAtTheHomepageToClickTheSignupPage() throws InterruptedException {
         driver.get(PROD_WEBSITE_LINK);
@@ -54,7 +52,7 @@ public class SignUpStepsDefs {
         Thread.sleep(3000);
     }
 
-    @Test
+
     @When("I will click the Sign-Up page")
     public void iWillClickTheSignUpPage() throws InterruptedException {
         WebElement signup = getElementWithPolling(wait, By.xpath(SIGNUP));

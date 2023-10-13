@@ -3,7 +3,7 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @CucumberOptions(
-        features = "src/test/resources/features/spottrading",
+        features = "src/test/resources/features",
         glue = "stepdefinitions",
         plugin = {"json:target/cucumber-report.json","html:target/cucumber-html",
                 "pretty", "html:target/cucumber-reports.html"}
